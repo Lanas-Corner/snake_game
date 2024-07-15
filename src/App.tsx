@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
-enum DirectionType {
-  Up,
-  Right,
-  Down,
-  Left,
-}
+import { DirectionType, useDirection } from "./useDirection";
 
 type SnakeOffset = {
   x: number;
@@ -14,27 +8,54 @@ type SnakeOffset = {
 };
 
 const initialSnake = { x: 7, y: 7 };
+const maxLength = 20;
+
 function App() {
   const [snake, setSnake] = useState<SnakeOffset>(initialSnake);
-  const [direction, setDirection] = useState<DirectionType>(DirectionType.Up);
   const [isLost, setIsLost] = useState<boolean>(false);
   const [timerId, setTimerId] = useState<number | undefined>();
-  const xGrid = Array.from(Array(20).keys());
-  const yGrid = Array.from(Array(20).keys());
+  const direction = useDirection(isLost);
+  const xGrid = Array.from(Array(maxLength).keys());
+  const yGrid = Array.from(Array(maxLength).keys());
 
   function handleDirection() {
+    console.log(direction);
     if (direction === DirectionType.Up) {
       setSnake((oldSnake) => {
         if (oldSnake.x <= 0) {
           setIsLost(true);
           return { ...oldSnake, x: 0 };
         } else {
-          return { ...oldSnake, x: oldSnake.x - 1 };
+          return { ...oldSnake, x: oldSnake.x-- };
         }
       });
     } else if (direction === DirectionType.Down) {
+      setSnake((oldSnake) => {
+        if (oldSnake.x >= maxLength) {
+          setIsLost(true);
+          return { ...oldSnake, x: maxLength };
+        } else {
+          return { ...oldSnake, x: oldSnake.x++ };
+        }
+      });
     } else if (direction === DirectionType.Left) {
+      setSnake((oldSnake) => {
+        if (oldSnake.y <= 0) {
+          setIsLost(true);
+          return { ...oldSnake, y: 0 };
+        } else {
+          return { ...oldSnake, y: oldSnake.y-- };
+        }
+      });
     } else if (direction === DirectionType.Right) {
+      setSnake((oldSnake) => {
+        if (oldSnake.y >= maxLength) {
+          setIsLost(true);
+          return { ...oldSnake, y: maxLength };
+        } else {
+          return { ...oldSnake, y: oldSnake.y++ };
+        }
+      });
     }
   }
 
@@ -54,7 +75,7 @@ function App() {
   useEffect(() => {
     let interval: number | undefined;
     if (!isLost) {
-      interval = setInterval(handleDirection, 1000);
+      interval = setInterval(handleDirection, 300);
     }
     if (!timerId && interval && !isLost) {
       setTimerId(interval);
@@ -64,7 +85,7 @@ function App() {
         clearInterval(interval);
       }
     };
-  }, [timerId, isLost, snake]);
+  }, [timerId, isLost, snake, direction]);
 
   return (
     <div
