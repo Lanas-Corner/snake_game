@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { DirectionType, useDirection } from "./useDirection";
+import { getRandomOffset } from "./utils";
 
-type SnakeOffset = {
+export type SnakeOffset = {
   x: number;
   y: number;
 };
@@ -20,6 +21,7 @@ function App() {
   ]);
   const [isLost, setIsLost] = useState<boolean>(false);
   const [timerId, setTimerId] = useState<number | undefined>();
+  const [apple, setApple] = useState<SnakeOffset>();
   const { direction, resetDirection } = useDirection(isLost);
   const xGrid = Array.from(Array(maxLength).keys());
   const yGrid = Array.from(Array(maxLength).keys());
@@ -99,6 +101,9 @@ function App() {
     if (isLost) {
       clearInterval(timerId);
       setTimerId(undefined);
+    } else if (!apple) {
+      let newApple = getRandomOffset(maxLength, snake);
+      setApple(newApple);
     }
   }, [isLost]);
 
@@ -150,6 +155,8 @@ function App() {
                         (pos) => pos.x == numX && pos.y == numY
                       )
                         ? "rgba(255, 99, 71, 0.9)"
+                        : apple?.x === numX && apple?.y === numY
+                        ? "rgba(238, 172, 74, 0.828)"
                         : "",
                     }}
                     key={numY}
