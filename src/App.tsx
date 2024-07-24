@@ -7,60 +7,89 @@ type SnakeOffset = {
   y: number;
 };
 
-const initialSnake = { x: 7, y: 7 };
+const firstOffset = { x: 7, y: 7 };
+const secondOffset = { x: 8, y: 7 };
+const thirdOffset = { x: 9, y: 7 };
 const maxLength = 20;
 
 function App() {
-  const [snake, setSnake] = useState<SnakeOffset>(initialSnake);
+  const [snake, setSnake] = useState<SnakeOffset[]>([
+    firstOffset,
+    secondOffset,
+    thirdOffset,
+  ]);
   const [isLost, setIsLost] = useState<boolean>(false);
   const [timerId, setTimerId] = useState<number | undefined>();
-  const direction = useDirection(isLost);
+  const { direction } = useDirection(isLost);
   const xGrid = Array.from(Array(maxLength).keys());
   const yGrid = Array.from(Array(maxLength).keys());
 
   function handleDirection() {
-    console.log(direction);
     if (direction === DirectionType.Up) {
       setSnake((oldSnake) => {
-        if (oldSnake.x <= 0) {
+        const firstEl = oldSnake[0];
+        if (firstEl.x <= 0) {
           setIsLost(true);
-          return { ...oldSnake, x: 0 };
+          return oldSnake;
         } else {
-          return { ...oldSnake, x: oldSnake.x-- };
+          const newOffset = {
+            x: firstEl.x - 1,
+            y: firstEl.y,
+          };
+          const snake = oldSnake.slice(0, oldSnake.length - 1);
+          return [newOffset, ...snake];
         }
       });
     } else if (direction === DirectionType.Down) {
       setSnake((oldSnake) => {
-        if (oldSnake.x >= maxLength) {
+        const firstEl = oldSnake[0];
+        if (firstEl.x >= maxLength - 1) {
           setIsLost(true);
-          return { ...oldSnake, x: maxLength };
+          return oldSnake;
         } else {
-          return { ...oldSnake, x: oldSnake.x++ };
+          const newOffset = {
+            x: firstEl.x + 1,
+            y: firstEl.y,
+          };
+          const snake = oldSnake.slice(0, oldSnake.length - 1);
+          return [newOffset, ...snake];
         }
       });
     } else if (direction === DirectionType.Left) {
       setSnake((oldSnake) => {
-        if (oldSnake.y <= 0) {
+        const firstEl = oldSnake[0];
+        if (firstEl.y <= 0) {
           setIsLost(true);
-          return { ...oldSnake, y: 0 };
+          return oldSnake;
         } else {
-          return { ...oldSnake, y: oldSnake.y-- };
+          const newOffset = {
+            x: firstEl.x,
+            y: firstEl.y - 1,
+          };
+          const snake = oldSnake.slice(0, oldSnake.length - 1);
+          return [newOffset, ...snake];
         }
       });
     } else if (direction === DirectionType.Right) {
       setSnake((oldSnake) => {
-        if (oldSnake.y >= maxLength) {
+        const firstEl = oldSnake[0];
+        if (firstEl.y >= maxLength - 1) {
           setIsLost(true);
-          return { ...oldSnake, y: maxLength };
+          return oldSnake;
         } else {
-          return { ...oldSnake, y: oldSnake.y++ };
+          const newOffset = {
+            x: firstEl.x,
+            y: firstEl.y + 1,
+          };
+          const snake = oldSnake.slice(0, oldSnake.length - 1);
+          return [newOffset, ...snake];
         }
       });
     }
   }
 
   function handleStart() {
-    setSnake(initialSnake);
+    setSnake([firstOffset, secondOffset, thirdOffset]);
     setTimerId(undefined);
     setIsLost(false);
   }
@@ -75,7 +104,7 @@ function App() {
   useEffect(() => {
     let interval: number | undefined;
     if (!isLost) {
-      interval = setInterval(handleDirection, 300);
+      interval = setInterval(handleDirection, 1000);
     }
     if (!timerId && interval && !isLost) {
       setTimerId(interval);
@@ -85,7 +114,7 @@ function App() {
         clearInterval(interval);
       }
     };
-  }, [timerId, isLost, snake, direction]);
+  }, [timerId, isLost, direction]);
 
   return (
     <div
@@ -106,7 +135,8 @@ function App() {
                 {yGrid.map((numY) => (
                   <th
                     className={
-                      snake.x === numX && snake.y === numY
+                      // snake.includes({ x: numX, y: numY })
+                      !!snake.find((pos) => pos.x == numX && pos.y == numY)
                         ? "blink_animation"
                         : ""
                     }
@@ -116,10 +146,12 @@ function App() {
                       height: "20px",
                       margin: 0,
                       padding: 0,
-                      background:
-                        snake.x === numX && snake.y === numY
-                          ? "rgba(255, 99, 71, 0.9)"
-                          : "",
+                      background: snake.find(
+                        (pos) => pos.x == numX && pos.y == numY
+                      )
+                        ? // snake.includes({ x: numX, y: numY })
+                          "rgba(255, 99, 71, 0.9)"
+                        : "",
                     }}
                     key={numY}
                   ></th>

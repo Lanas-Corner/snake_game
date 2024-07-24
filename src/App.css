@@ -3,13 +3,13 @@
 }
 
 @keyframes blink {
-  75% {
+  /* 75% {
     opacity: 0.75;
-  }
+  } */
   50% {
-    opacity: 0.45;
-  }
-  25% {
     opacity: 0.75;
   }
+  /* 25% {
+    opacity: 0.75;
+  } */
 }
