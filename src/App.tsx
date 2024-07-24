@@ -20,7 +20,7 @@ function App() {
   ]);
   const [isLost, setIsLost] = useState<boolean>(false);
   const [timerId, setTimerId] = useState<number | undefined>();
-  const { direction } = useDirection(isLost);
+  const { direction, resetDirection } = useDirection(isLost);
   const xGrid = Array.from(Array(maxLength).keys());
   const yGrid = Array.from(Array(maxLength).keys());
 
@@ -90,6 +90,7 @@ function App() {
 
   function handleStart() {
     setSnake([firstOffset, secondOffset, thirdOffset]);
+    resetDirection();
     setTimerId(undefined);
     setIsLost(false);
   }
@@ -135,7 +136,6 @@ function App() {
                 {yGrid.map((numY) => (
                   <th
                     className={
-                      // snake.includes({ x: numX, y: numY })
                       !!snake.find((pos) => pos.x == numX && pos.y == numY)
                         ? "blink_animation"
                         : ""
@@ -149,8 +149,7 @@ function App() {
                       background: snake.find(
                         (pos) => pos.x == numX && pos.y == numY
                       )
-                        ? // snake.includes({ x: numX, y: numY })
-                          "rgba(255, 99, 71, 0.9)"
+                        ? "rgba(255, 99, 71, 0.9)"
                         : "",
                     }}
                     key={numY}

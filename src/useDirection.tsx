@@ -7,21 +7,35 @@ export enum DirectionType {
   Left,
 }
 
+const initialDirection = DirectionType.Up;
+
 export function useDirection(isLost: boolean) {
-  const [direction, setDirection] = useState<DirectionType>(DirectionType.Up);
+  const [direction, setDirection] = useState<DirectionType>(initialDirection);
 
   function handleKeyDown(e: KeyboardEvent) {
     if (!isLost) {
       if (e.key === "ArrowUp") {
-        setDirection(DirectionType.Up);
+        setDirection((direction) =>
+          direction !== DirectionType.Down ? DirectionType.Up : direction
+        );
       } else if (e.key === "ArrowDown") {
-        setDirection(DirectionType.Down);
+        setDirection((direction) =>
+          direction !== DirectionType.Up ? DirectionType.Down : direction
+        );
       } else if (e.key === "ArrowLeft") {
-        setDirection(DirectionType.Left);
+        setDirection((direction) =>
+          direction !== DirectionType.Right ? DirectionType.Left : direction
+        );
       } else if (e.key === "ArrowRight") {
-        setDirection(DirectionType.Right);
+        setDirection((direction) =>
+          direction !== DirectionType.Left ? DirectionType.Right : direction
+        );
       }
     }
+  }
+
+  function resetDirection() {
+    setDirection(initialDirection);
   }
 
   useEffect(() => {
@@ -32,5 +46,5 @@ export function useDirection(isLost: boolean) {
     };
   }, []);
 
-  return direction;
+  return { direction, resetDirection };
 }
