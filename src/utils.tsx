@@ -7,12 +7,14 @@ export function getRandomOffset(
 ) {
   let x = Math.floor(Math.random() * max);
   let y = Math.floor(Math.random() * max);
-  while (x === previous?.x || snake.find((offset) => offset.x === x)) {
+  while (
+    (x === previous?.x && y === previous?.y) ||
+    snake.find((offset) => offset.x === x && offset.y === y)
+  ) {
     x = Math.floor(Math.random() * max);
-  }
-  while (y === previous?.y) {
     y = Math.floor(Math.random() * max);
   }
+
   const result = { x, y };
   return result;
 }
