@@ -38,6 +38,14 @@ function App() {
             x: firstEl.x - 1,
             y: firstEl.y,
           };
+          if (
+            oldSnake.find(
+              (offset) => offset.x === newOffset.x && offset.y === newOffset.y
+            )
+          ) {
+            setIsLost(true);
+            return oldSnake;
+          }
           if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
             updateApple([newOffset, ...oldSnake]);
             return [newOffset, ...oldSnake];
@@ -58,6 +66,14 @@ function App() {
             x: firstEl.x + 1,
             y: firstEl.y,
           };
+          if (
+            oldSnake.find(
+              (offset) => offset.x === newOffset.x && offset.y === newOffset.y
+            )
+          ) {
+            setIsLost(true);
+            return oldSnake;
+          }
           if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
             updateApple([newOffset, ...oldSnake]);
             return [newOffset, ...oldSnake];
@@ -78,6 +94,14 @@ function App() {
             x: firstEl.x,
             y: firstEl.y - 1,
           };
+          if (
+            oldSnake.find(
+              (offset) => offset.x === newOffset.x && offset.y === newOffset.y
+            )
+          ) {
+            setIsLost(true);
+            return oldSnake;
+          }
           if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
             updateApple([newOffset, ...oldSnake]);
             return [newOffset, ...oldSnake];
@@ -98,6 +122,14 @@ function App() {
             x: firstEl.x,
             y: firstEl.y + 1,
           };
+          if (
+            oldSnake.find(
+              (offset) => offset.x === newOffset.x && offset.y === newOffset.y
+            )
+          ) {
+            setIsLost(true);
+            return oldSnake;
+          }
           if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
             updateApple([newOffset, ...oldSnake]);
             return [newOffset, ...oldSnake];
