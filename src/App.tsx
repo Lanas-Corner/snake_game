@@ -38,8 +38,13 @@ function App() {
             x: firstEl.x - 1,
             y: firstEl.y,
           };
-          const snake = oldSnake.slice(0, oldSnake.length - 1);
-          return [newOffset, ...snake];
+          if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
+            updateApple([newOffset, ...oldSnake]);
+            return [newOffset, ...oldSnake];
+          } else {
+            const snake = oldSnake.slice(0, oldSnake.length - 1);
+            return [newOffset, ...snake];
+          }
         }
       });
     } else if (direction === DirectionType.Down) {
@@ -53,8 +58,13 @@ function App() {
             x: firstEl.x + 1,
             y: firstEl.y,
           };
-          const snake = oldSnake.slice(0, oldSnake.length - 1);
-          return [newOffset, ...snake];
+          if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
+            updateApple([newOffset, ...oldSnake]);
+            return [newOffset, ...oldSnake];
+          } else {
+            const snake = oldSnake.slice(0, oldSnake.length - 1);
+            return [newOffset, ...snake];
+          }
         }
       });
     } else if (direction === DirectionType.Left) {
@@ -68,8 +78,13 @@ function App() {
             x: firstEl.x,
             y: firstEl.y - 1,
           };
-          const snake = oldSnake.slice(0, oldSnake.length - 1);
-          return [newOffset, ...snake];
+          if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
+            updateApple([newOffset, ...oldSnake]);
+            return [newOffset, ...oldSnake];
+          } else {
+            const snake = oldSnake.slice(0, oldSnake.length - 1);
+            return [newOffset, ...snake];
+          }
         }
       });
     } else if (direction === DirectionType.Right) {
@@ -83,8 +98,13 @@ function App() {
             x: firstEl.x,
             y: firstEl.y + 1,
           };
-          const snake = oldSnake.slice(0, oldSnake.length - 1);
-          return [newOffset, ...snake];
+          if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
+            updateApple([newOffset, ...oldSnake]);
+            return [newOffset, ...oldSnake];
+          } else {
+            const snake = oldSnake.slice(0, oldSnake.length - 1);
+            return [newOffset, ...snake];
+          }
         }
       });
     }
@@ -97,20 +117,24 @@ function App() {
     setIsLost(false);
   }
 
+  function updateApple(newSnake: SnakeOffset[]) {
+    let newApple = getRandomOffset(maxLength, newSnake, apple);
+    setApple(newApple);
+  }
+
   useEffect(() => {
     if (isLost) {
       clearInterval(timerId);
       setTimerId(undefined);
     } else if (!apple) {
-      let newApple = getRandomOffset(maxLength, snake);
-      setApple(newApple);
+      updateApple(snake);
     }
   }, [isLost]);
 
   useEffect(() => {
     let interval: number | undefined;
     if (!isLost) {
-      interval = setInterval(handleDirection, 1000);
+      interval = setInterval(handleDirection, 200);
     }
     if (!timerId && interval && !isLost) {
       setTimerId(interval);
