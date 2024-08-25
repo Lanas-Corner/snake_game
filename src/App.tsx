@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { DirectionType, useDirection } from "./useDirection";
 import { getRandomOffset } from "./utils";
+import Logo from "./assets/Logo.png";
 
 export type SnakeOffset = {
   x: number;
@@ -114,92 +115,102 @@ function App() {
   return (
     <div
       style={{
-        display: "inline-flex",
-        margin: "130px auto",
-        padding: 0,
-        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "10px",
       }}
     >
+      <img src={Logo} alt="logo" width={387} />
       <div
         style={{
-          opacity: isLost ? "0.3" : "1",
-          display: "flex",
-          border: "1px solid rgba(255, 99, 71, 0.5)",
+          display: "inline-flex",
+          margin: "30px auto",
+          padding: 0,
+          position: "relative",
         }}
       >
-        <table style={{ borderSpacing: 0 }}>
-          <tbody style={{}}>
-            {xGrid.map((numX) => (
-              <tr style={{ margin: 0, padding: 0 }} key={numX}>
-                {yGrid.map((numY) => (
-                  <th
-                    className={
-                      !!snake.find((pos) => pos.x == numX && pos.y == numY)
-                        ? "blink_animation"
-                        : ""
-                    }
-                    style={{
-                      border: "0.1px solid rgba(0, 0, 0, 0.2)",
-                      width: "20px",
-                      height: "20px",
-                      margin: 0,
-                      padding: 0,
-                      background: snake.find(
-                        (pos) => pos.x == numX && pos.y == numY
-                      )
-                        ? "rgba(255, 99, 71, 0.9)"
-                        : apple?.x === numX && apple?.y === numY
-                        ? "rgba(238, 172, 74, 0.828)"
-                        : "",
-                    }}
-                    key={numY}
-                  ></th>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {isLost && (
         <div
           style={{
-            position: "absolute",
-            background: "rgba(255, 99, 71, 1)",
-            top: 130,
-            color: "white",
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "20px",
-            textAlign: "center",
-            borderRadius: "10px",
+            opacity: isLost ? "0.3" : "1",
+            display: "flex",
+            border: "1px solid rgba(255, 99, 71, 0.5)",
           }}
         >
-          <h1
-            style={{
-              textAlign: "center",
-              textTransform: "uppercase",
-              fontSize: "28px",
-            }}
-          >
-            Game over
-          </h1>
-          <button
-            style={{
-              backgroundColor: "white",
-              padding: "8px 40px",
-              outline: "none",
-              border: "none",
-              borderRadius: "20px",
-              color: "rgba(255, 99, 71, 1)",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
-            onClick={handleStart}
-          >
-            play
-          </button>
+          <table style={{ borderSpacing: 0 }}>
+            <tbody style={{}}>
+              {xGrid.map((numX) => (
+                <tr style={{ margin: 0, padding: 0 }} key={numX}>
+                  {yGrid.map((numY) => (
+                    <th
+                      className={
+                        !!snake.find((pos) => pos.x == numX && pos.y == numY)
+                          ? "blink_animation"
+                          : ""
+                      }
+                      style={{
+                        border: "0.1px solid rgba(0, 0, 0, 0.2)",
+                        width: "20px",
+                        height: "20px",
+                        margin: 0,
+                        padding: 0,
+                        background: snake.find(
+                          (pos) => pos.x == numX && pos.y == numY
+                        )
+                          ? "rgba(255, 99, 71, 0.9)"
+                          : apple?.x === numX && apple?.y === numY
+                          ? "rgba(238, 172, 74, 0.828)"
+                          : "",
+                      }}
+                      key={numY}
+                    ></th>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+        {isLost && (
+          <div
+            style={{
+              position: "absolute",
+              background: "rgba(255, 99, 71, 1)",
+              top: 130,
+              color: "white",
+              width: "100%",
+              boxSizing: "border-box",
+              padding: "20px",
+              textAlign: "center",
+              borderRadius: "10px",
+            }}
+          >
+            <h1
+              style={{
+                textAlign: "center",
+                textTransform: "uppercase",
+                fontSize: "28px",
+              }}
+            >
+              Game over
+            </h1>
+            <button
+              style={{
+                backgroundColor: "white",
+                padding: "8px 40px",
+                outline: "none",
+                border: "none",
+                borderRadius: "20px",
+                color: "rgba(255, 99, 71, 1)",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+              onClick={handleStart}
+            >
+              play
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
