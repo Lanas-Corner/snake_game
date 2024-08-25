@@ -26,122 +26,6 @@ function App() {
   const xGrid = Array.from(Array(maxLength).keys());
   const yGrid = Array.from(Array(maxLength).keys());
 
-  // function handleDirection() {
-  //   if (direction === DirectionType.Up) {
-  //     setSnake((oldSnake) => {
-  //       const firstEl = oldSnake[0];
-  //       if (firstEl.x <= 0) {
-  //         setIsLost(true);
-  //         return oldSnake;
-  //       } else {
-  //         const newOffset = {
-  //           x: firstEl.x - 1,
-  //           y: firstEl.y,
-  //         };
-  //         if (
-  //           oldSnake.find(
-  //             (offset) => offset.x === newOffset.x && offset.y === newOffset.y
-  //           )
-  //         ) {
-  //           setIsLost(true);
-  //           return oldSnake;
-  //         }
-  //         if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
-  //           updateApple([newOffset, ...oldSnake]);
-  //           return [newOffset, ...oldSnake];
-  //         } else {
-  //           const snake = oldSnake.slice(0, oldSnake.length - 1);
-  //           return [newOffset, ...snake];
-  //         }
-  //       }
-  //     });
-  //   } else if (direction === DirectionType.Down) {
-  //     setSnake((oldSnake) => {
-  //       const firstEl = oldSnake[0];
-  //       if (firstEl.x >= maxLength - 1) {
-  //         setIsLost(true);
-  //         return oldSnake;
-  //       } else {
-  //         const newOffset = {
-  //           x: firstEl.x + 1,
-  //           y: firstEl.y,
-  //         };
-  //         if (
-  //           oldSnake.find(
-  //             (offset) => offset.x === newOffset.x && offset.y === newOffset.y
-  //           )
-  //         ) {
-  //           setIsLost(true);
-  //           return oldSnake;
-  //         }
-  //         if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
-  //           updateApple([newOffset, ...oldSnake]);
-  //           return [newOffset, ...oldSnake];
-  //         } else {
-  //           const snake = oldSnake.slice(0, oldSnake.length - 1);
-  //           return [newOffset, ...snake];
-  //         }
-  //       }
-  //     });
-  //   } else if (direction === DirectionType.Left) {
-  //     setSnake((oldSnake) => {
-  //       const firstEl = oldSnake[0];
-  //       if (firstEl.y <= 0) {
-  //         setIsLost(true);
-  //         return oldSnake;
-  //       } else {
-  //         const newOffset = {
-  //           x: firstEl.x,
-  //           y: firstEl.y - 1,
-  //         };
-  //         if (
-  //           oldSnake.find(
-  //             (offset) => offset.x === newOffset.x && offset.y === newOffset.y
-  //           )
-  //         ) {
-  //           setIsLost(true);
-  //           return oldSnake;
-  //         }
-  //         if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
-  //           updateApple([newOffset, ...oldSnake]);
-  //           return [newOffset, ...oldSnake];
-  //         } else {
-  //           const snake = oldSnake.slice(0, oldSnake.length - 1);
-  //           return [newOffset, ...snake];
-  //         }
-  //       }
-  //     });
-  //   } else if (direction === DirectionType.Right) {
-  //     setSnake((oldSnake) => {
-  //       const firstEl = oldSnake[0];
-  //       if (firstEl.y >= maxLength - 1) {
-  //         setIsLost(true);
-  //         return oldSnake;
-  //       } else {
-  //         const newOffset = {
-  //           x: firstEl.x,
-  //           y: firstEl.y + 1,
-  //         };
-  //         if (
-  //           oldSnake.find(
-  //             (offset) => offset.x === newOffset.x && offset.y === newOffset.y
-  //           )
-  //         ) {
-  //           setIsLost(true);
-  //           return oldSnake;
-  //         }
-  //         if (newOffset.x == apple?.x && newOffset.y == apple?.y) {
-  //           updateApple([newOffset, ...oldSnake]);
-  //           return [newOffset, ...oldSnake];
-  //         } else {
-  //           const snake = oldSnake.slice(0, oldSnake.length - 1);
-  //           return [newOffset, ...snake];
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
   function handleSnake() {
     setSnake((oldSnake) => {
       const firstEl = oldSnake[0];
@@ -230,15 +114,19 @@ function App() {
   return (
     <div
       style={{
-        border: "1px solid rgba(255, 99, 71, 0.5)",
-        width: 360,
-        height: 440,
+        display: "inline-flex",
         margin: "130px auto",
         padding: 0,
         position: "relative",
       }}
     >
-      <div style={{ opacity: isLost ? "0.3" : "1" }}>
+      <div
+        style={{
+          opacity: isLost ? "0.3" : "1",
+          display: "flex",
+          border: "1px solid rgba(255, 99, 71, 0.5)",
+        }}
+      >
         <table style={{ borderSpacing: 0 }}>
           <tbody style={{}}>
             {xGrid.map((numX) => (
