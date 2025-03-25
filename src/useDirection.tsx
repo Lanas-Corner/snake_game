@@ -42,6 +42,10 @@ export function useDirection(isLost: boolean) {
     }
   }
 
+  function handleTouchMove(e: TouchEvent) {
+    e.preventDefault();
+  }
+
   function handleTouchEnd(e: TouchEvent) {
     if (!touchStartRef.current || isLost) return;
 
@@ -85,12 +89,16 @@ export function useDirection(isLost: boolean) {
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchend", handleTouchEnd);
+    document.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    document.addEventListener("touchend", handleTouchEnd, { passive: false });
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchmove", handleTouchMove);
       document.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);

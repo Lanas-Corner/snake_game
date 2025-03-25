@@ -128,6 +128,7 @@ function App() {
           margin: "30px auto",
           padding: 0,
           position: "relative",
+          touchAction: "none",
         }}
       >
         <div
